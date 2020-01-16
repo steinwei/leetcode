@@ -44,3 +44,5 @@ var longestPalindrome = function(s) {
 };
 // @lc code=end
 
+longestPalindrome([1,2,3,3]);
+// console.log();
