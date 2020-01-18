@@ -1,7 +1,6 @@
 # claim
 
 > this is my rep to practise leetcodes  
-> welcome to f**k me in issues
 
 ## 关于自测
 
