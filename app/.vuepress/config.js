@@ -1,6 +1,6 @@
 module.exports={
     base: '/leetcode/',
-    dest: 'docs',
+    dest: '../docs',
     plugins: ['autobar'],
     themeConfig: {
         nav: [
