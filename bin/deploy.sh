@@ -1,4 +1,4 @@
-yarn run docs:build
+sudo yarn run docs:build
 
 git add .
 git commit -m 'feat: init'
