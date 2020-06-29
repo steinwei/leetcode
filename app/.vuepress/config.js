@@ -1,6 +1,8 @@
+console.log(`当前工作目录是: ${process.cwd()}`);
+
 module.exports={
     base: '/leetcode/',
-    dest: '../docs',
+    dest: 'docs',
     plugins: ['autobar'],
     themeConfig: {
         nav: [
