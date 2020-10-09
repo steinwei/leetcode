@@ -6,9 +6,9 @@
 
 // @lc code=start
 function combine(n: number, k: number): number[][] {
-    const res:Array<Array<number>>=[]
+    const res:number[][]=[]
 
-    const stack:Array<Array<number>>=[]
+    const stack:number[][]=[]
     
     let start:number = 1
     const end:number = n - k + 1
@@ -28,10 +28,10 @@ function combine(n: number, k: number): number[][] {
     }
 
     while(stack.length!=0){
-        const temp:Array<number> = stack.pop() ||[]
+        const temp:number[] = stack.pop() ||[]
         let num:number=temp[temp?.length-1]
         for (let i = num+1; i <= n; i++) {
-            const clone = temp.slice()
+            const clone = temp.concat()
             clone.push(i)
             if(clone.length==k){
                 res.push(clone)

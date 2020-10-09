@@ -3,7 +3,7 @@
     "configurations": [
         {
             "name": "Launch Program - JS",
-            "program": "${workspaceFolder}/src/15.三数之和.js",
+            "program": "${workspaceFolder}/src/78.子集.js",
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"
