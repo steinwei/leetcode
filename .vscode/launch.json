@@ -3,7 +3,7 @@
     "configurations": [
         {
             "name": "Launch Program - JS",
-            "program": "${workspaceFolder}/src/78.子集.js",
+            "program": "${workspaceFolder}/src/46.全排列.js",
             "request": "launch",
             "skipFiles": [
                 "<node_internals>/**"

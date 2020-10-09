@@ -7,28 +7,37 @@
 // @lc code=start
 function permute(nums: number[]): number[][] {
     let res: number[][] = []
+    const map:Map<number, boolean> = new Map()
 
-    const helper = (index: number, temp: number[], nums: number[]) => {
+    // $pos
+    const backtracks = (path: number[] = []) => {
         // end
-        if(index > nums.length) {
+        if(path.length > nums.length) {
             return
         }
         // base case
         // res
-        if(temp.length == nums.length) {
-            res.push(temp.concat())
+        if(path.length == nums.length) {
+            res.push(path.concat())
         }
         // loop
-        for (let i = index; i < nums.length; i++) {
-            temp.push(nums[i])
-            helper(i + 1, temp, nums)
-            temp.pop()
+        for (let i = 0; i < nums.length; i++) {
+            // skip
+            if(map.get(nums[i])) continue
+            // memo tracks
+            map.set(nums[i], true)
+            path.push(nums[i])
+            backtracks(path)
+            // pop tracks
+            path.pop()
+            map.set(nums[i], false)
         }
     }
 
-    helper(0, [], nums)
+    backtracks()
 
     return res
 };
 // @lc code=end
 
+permute([1,2,3])
