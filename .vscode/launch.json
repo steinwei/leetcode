@@ -23,6 +23,15 @@
             ],
             "cwd": "${workspaceRoot}",
             "protocol": "inspector"
+        },
+        {
+            "name": "Launch - go",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/src/3.无重复字符的最长子串.go",
+            "env": {},
+            "args": []
         }
     ]
 }
