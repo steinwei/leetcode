@@ -5,6 +5,8 @@
  */
 package leetcode
 
+import "math"
+
 // @lc code=start
 func maxProfit(k int, prices []int) int {
 	count := len(prices)
@@ -14,64 +16,39 @@ func maxProfit(k int, prices []int) int {
 	}
 
 	if k > count/2 {
-		dp := make([][2]int, count)
-
-		// base case
-		dp[0][0] = -prices[0]
-		dp[0][1] = 0
-
-		var findMax func(x, y int) int
-		findMax = func(x, y int) int {
-			if x > y {
-				return x
-			}
-			return y
-		}
-
-		for i := 1; i < count; i++ {
-			dp[i][0] = findMax(dp[i-1][0], dp[i-1][1]-prices[i])
-			dp[i][1] = findMax(dp[i-1][1], dp[i-1][0]+prices[i])
-		}
-
-		return dp[count-1][1]
+		return maxProfit2(prices)
 	}
 
-	dp := make([][][]int, count)
-
-	for i := 0; i < count; i++ {
-		dp[i] = make([][]int, k+1)
-		for j := 0; j < k+1; j++ {
-			dp[i][j] = make([]int, 2)
+	dp_i_0, dp_i_1 := make([]int, k+1), make([]int, k+1)
+	for i := 0; i < k+1; i++ {
+		dp_i_0[i] = 0
+		dp_i_1[i] = math.MinInt64
+	}
+	for _, v := range prices {
+		for i := k; i >= 1; i-- {
+			dp_i_0[i] = max(dp_i_0[i], dp_i_1[i]+v)
+			dp_i_1[i] = max(dp_i_1[i], dp_i_0[i-1]-v)
 		}
 	}
+	return dp_i_0[k]
+}
 
-	var findMax func(x, y int) int
-	findMax = func(x, y int) int {
-		if x > y {
-			return x
-		}
-		return y
+func max(x, y int) int {
+	if x > y {
+		return x
 	}
+	return y
+}
 
-	for i := 0; i < count; i++ {
-		for j := 1; j <= k; j++ {
-			// base case
-			if i == 0 {
-				// 第一次成本
-				dp[i][j][0] = -prices[0]
-				// 第一次利润
-				dp[i][j][1] = 0
-				continue
-			}
-			// 第二次成本 = 第一次利润 - 当天价格
-			dp[i][j][0] = findMax(dp[i-1][j][0], dp[i-1][j-1][1]-prices[i])
-			// 第二次利润 = 第二次成本 + 当天价格
-			dp[i][j][1] = findMax(dp[i-1][j][1], dp[i-1][j][0]+prices[i])
-
-		}
+func maxProfit2(prices []int) int {
+	n := len(prices)
+	dp_i_0, dp_i_1 := 0, -1<<31
+	for i := 0; i < n; i++ {
+		temp := dp_i_0
+		dp_i_0 = max(dp_i_0, dp_i_1+prices[i])
+		dp_i_1 = max(dp_i_1, temp-prices[i])
 	}
-
-	return dp[count-1][k][1]
+	return dp_i_0
 }
 
 // @lc code=end
