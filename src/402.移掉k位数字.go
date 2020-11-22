@@ -8,6 +8,9 @@ package leetcode
 // @lc code=start
 func removeKdigits(num string, k int) string {
 	ans := ""
+
+	
+
 	return ans
 }
 
