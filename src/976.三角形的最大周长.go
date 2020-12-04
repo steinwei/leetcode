@@ -9,6 +9,7 @@ import "sort"
 
 // @lc code=start
 func largestPerimeter(A []int) int {
+<<<<<<< HEAD
 	ans := 0
 
 	// a + b > c
@@ -29,6 +30,17 @@ func largestPerimeter(A []int) int {
 	}
 
 	return ans
+=======
+	sort.Ints(A)
+	// c - a < b
+	for i := len(A) - 1; i >= 2; i-- {
+		if A[i] < A[i-1]+A[i-2] {
+			return A[i] + A[i-1] + A[i-2]
+		}
+	}
+
+	return 0
+>>>>>>> 99e6b456f275e9bfc92bac2570f8f83624135ecc
 }
 
 // @lc code=end
