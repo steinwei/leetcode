@@ -9,19 +9,17 @@ package leetcode
 func countPrimes(n int) int {
 	ans := 0
 
-	var isPrime = func(num int) bool {
-		for i := 0; i*i < num; i++ {
-			if num&i == 0 {
-				return false
-			}
-		}
-		return true
+	isPrime := make([]bool, n)
+	for idx := range isPrime {
+		isPrime[idx] = true
 	}
 
-	count := 2
-	for count < n {
-		if isPrime(count) {
+	for i := 2; i < n; i++ {
+		if isPrime[i] {
 			ans++
+			for j := 2 * i; j < n; j += i {
+				isPrime[j] = false
+			}
 		}
 	}
 
