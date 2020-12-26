@@ -3,13 +3,16 @@
  *
  * [168] Excel表列名称
  */
-package leetcode
+// package leetcode
 
 // @lc code=start
 func convertToTitle(n int) string {
-	ans := ""
 
-	return ans
+	if n <= 26 {
+		return string('A' + (n-1)%26)
+	}
+
+	return convertToTitle((n-1)/26) + convertToTitle((n-1)%26+1)
 }
 
 // @lc code=en
