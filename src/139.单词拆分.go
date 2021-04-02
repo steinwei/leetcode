@@ -7,11 +7,22 @@ package leetcode
 
 // @lc code=start
 func wordBreak(s string, wordDict []string) bool {
-	ans := false
+	wordDictSet := make(map[string]bool)
+	for _, w := range wordDict {
+		wordDictSet[w] = true
+	}
 
-	
+	dp:=make([]bool, len(s)+1)
+	dp[0]=true
 
-	return ans
+	for i := 1; i < len(s)+1; i++ {
+		for j := 0; j < i; j++ {
+			if dp[j] && wordDictSet[s[j:i]] {
+				dp[i] = true
+			}
+		}
+	}
+	return dp[len(s)]
 }
 
 // @lc code=end
