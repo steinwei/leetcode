@@ -7,23 +7,28 @@ package leetcode
 
 // @lc code=start
 func maxProduct(nums []int) int {
-	n:= len(nums)
-	dp := make([]int, n)
-
-	dp[0] = 0
-	for i := 1; i < n; i++ {
-		sum := max(nums[i] * nums[i-1], nums[i])
-		dp[i] = max(dp[i-1], sum)
+	maxF, minF, ans := nums[0], nums[0], nums[0]
+	for i := 1; i < len(nums); i++ {
+		mx, mn := maxF, minF
+		maxF = max(mx*nums[i], max(nums[i], mn*nums[i]))
+		minF = min(mn*nums[i], min(nums[i], mx*nums[i]))
+		ans = max(maxF, ans)
 	}
-
-	return dp[n-1]
+	return ans
 }
 
-func max(x,y int) int {
-	if x>y {
+func max(x, y int) int {
+	if x > y {
 		return x
 	}
 	return y
 }
-// @lc code=end
 
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+	return y
+}
+
+// @lc code=end
