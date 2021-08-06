@@ -7,16 +7,16 @@ package leetcode
 
 // @lc code=start
 func rotate(nums []int, k int) {
-	// reverse
-
-	// baoli
-
-	// xxx
-
+	k %= len(nums)
+	reverse(nums)
+	reverse(nums[k:])
+	reverse(nums[:k])
 }
 
 func reverse(nums []int) {
-	// for
+	for i, n:= 0, len(nums); i < n/2; i++{
+		nums[i], nums[n-1-i] = nums[n-1-i], nums[i]
+	}
 }
 
 // @lc code=end

@@ -27,8 +27,7 @@ func searchB(nums []int, target, lo, hi int) int {
 
 	mid := lo + (hi-lo)/2
 
-	// fmt.Println(mid)
-	// 确立上下边界
+	// 确立上下边界，区别在此，用于确定是否首位，其余跟二分法无异
 	if target == nums[mid] {
 		if (mid == 0) || nums[mid-1] < target {
 			return mid
@@ -51,7 +50,7 @@ func searchD(nums []int, target, lo, hi int) int {
 
 	// fmt.Println(mid)
 
-	// 确立上下边界
+	// 确立上下边界，确定是否在尾部
 	if target == nums[mid] && (mid == len(nums)-1 || nums[mid+1] > target) {
 		return mid
 	}
