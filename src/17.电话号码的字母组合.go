@@ -5,23 +5,44 @@
  */
 package leetcode
 
-
 // @lc code=start
+var phoneMap map[string]string = map[string]string{
+    "2": "abc",
+    "3": "def",
+    "4": "ghi",
+    "5": "jkl",
+    "6": "mno",
+    "7": "pqrs",
+    "8": "tuv",
+    "9": "wxyz",
+}
+
 func letterCombinations(digits string) (ans []string) {
-	letters1:= {
-		"2": "abc",
-	}
-	var backtracks func(index int, temp string) int
-	backtracks = func(index, temp) {
-		// get ans
-		// if index
 
-		// loop
-		letters1["2"]
-	}
-	
+	n := len(digits)
 
-	return 
+	if n == 0 {
+		return
+	}
+
+	var backtracks func(index int, temp string)
+	backtracks = func(index int, temp string) {
+		if index >= n {
+			ans = append(ans, temp)
+			return
+		}
+
+        digit := string(digits[index])
+        letters := phoneMap[digit]
+        lettersCount := len(letters)
+        for i := 0; i < lettersCount; i++ {
+            backtracks(index + 1, temp + string(letters[i]))
+        }
+	}
+
+	backtracks(0, "")
+
+	return
 }
 // @lc code=end
 

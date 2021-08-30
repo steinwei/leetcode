@@ -7,9 +7,7 @@ package leetcode
 
 // @lc code=start
 func longestSubstring(s string, k int) int {
-	// sort
-	// acc
-	// ok
+
 	return 0
 }
 
