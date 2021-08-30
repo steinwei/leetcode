@@ -13,10 +13,23 @@ package leetcode
  *     Next *ListNode
  * }
  */
-func removeNthFromEnd(head *ListNode, n int) (node *ListNode) {
+func removeNthFromEnd(head *ListNode, n int)  *ListNode {
 	
+	dummy := &ListNode{0, head}
+	slow, fast := dummy, head
+	
+	for i := 0; i < n; i++ {
+		fast = fast.Next
+	}
 
-	return
+	for ;fast != nil; fast = fast.Next {
+		slow = slow.Next
+	}
+
+	// deleted
+	slow.Next = slow.Next.Next
+
+	return dummy.Next
 }
 // @lc code=end
 
