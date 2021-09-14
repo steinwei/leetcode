@@ -6,42 +6,44 @@
 package leetcode
 
 // @lc code=start
-func updateMatrix(mat [][]int) (ans [][]int) {
-	// 
-	// dp[i][j] = min(dp[i-1][j], dp[i][j-1], dp[[i][j+1]]) + 1
+func updateMatrix(mat [][]int) [][]int {
 	n:=len(mat)
+	m:= len(mat[0])
 
-	dp:= make([][]int, n)
+	directions := [][]int{{0, -1}, {0, 1}, {-1, 0}, {1, 0}}
 
-	for i := range dp {
-		dp[i] = make([]int, n)
-	}
+	stack := [][]int{}
 
 	for i := 0; i < n; i++ {
-		for j := 0; j < n; j++ {
+		for j := 0; j < m; j++ {
 			if mat[i][j] == 0 {
-				continue
+				stack = append(stack, []int{i, j})
+			} else {
+				mat[i][j] = -1
 			}
-
-			if i == 0 || j == 0 || i == n-1 || j == n-1 {
-				dp[i][j] = mat[i][j]
-				continue
-			}
-
-			dp[i][j] = min(min(min(mat[i-1][j], mat[i+1][j]), mat[i][j-1]), mat[i][j+1]) + 1
 		}
 	}
 
-	ans = dp
+	for len(stack) != 0 {
+		point := stack[0]
+		stack = stack[1:]
 
-	return
-}
+		for i := 0; i < 4; i++ {
+			dx := point[0] + directions[i][0]
+			dy := point[1] + directions[i][1]
 
-func min(x, y int) int {
-	if x < y {
-		return x
+			if dx < 0 || dx > n - 1 || dy < 0 || dy > m - 1 {
+				continue
+			}
+
+			if mat[dx][dy] == -1 {
+				mat[dx][dy] = mat[point[0]][point[1]] + 1
+				stack = append(stack, []int{dx, dy})
+			}
+		}
 	}
-	return y
+
+	return mat
 }
 // @lc code=end
 

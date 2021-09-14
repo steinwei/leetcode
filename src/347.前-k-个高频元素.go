@@ -5,53 +5,62 @@
  */
 package leetcode
 
-import (
-	"math/rand"
-	"time"
-)
-
 // @lc code=start
-func topKFrequent(nums []int, k int) []int {
-    occurrences := map[int]int{}
-    for _, num := range nums {
-        occurrences[num]++
+func topKFrequent(nums []int, k int) (ans []int) {
+    
+	var swim func(a [][2]int, i int)
+	swim = func(a [][2]int, i int) {
+        if i == 0 {
+            return
+        }
+        par := (i - 1) >> 1
+        if a[par][1] > a[i][1] {
+            a[par], a[i] = a[i], a[par]
+            swim(a, par)
+        }
+	}
+
+	var sink func(a [][2]int,i, heapSize int)
+	sink = func(a [][2]int,i, heapSize int) {
+        if i > heapSize {
+            return
+        }
+        l, r := i << 1 + 1, i << 1 + 2
+        if l < heapSize && a[l][1] < a[i][1] {
+            a[l], a[i] = a[i], a[l]
+            sink(a, l, heapSize)
+        }
+
+        if r < heapSize && a[r][1] < a[i][1] {
+            a[r], a[i] = a[i], a[r]
+            sink(a, r, heapSize)
+        }
+	}
+
+    heap := [][2]int{}
+
+    hashmap := map[int]int{}
+
+    for _, v := range nums {
+        hashmap[v] ++
     }
-    values := [][]int{}
-    for key, value := range occurrences {
-		
-        values = append(values, []int{key, value})
-    }
-    ret := make([]int, k)
-    qsort(values, 0, len(values) - 1, ret, 0, k)
-    return ret
-}
 
-func qsort(values [][]int, start, end int, ret []int, retIndex, k int) {
-    rand.Seed(time.Now().UnixNano())
-    picked := rand.Int() % (end - start + 1) + start;
-    values[picked], values[start] = values[start], values[picked]
-
-    pivot := values[start][1]
-    index := start
-
-    for i := start + 1; i <= end; i++ {
-        if values[i][1] >= pivot {
-            values[index + 1], values[i] = values[i], values[index + 1]
-            index++
+    for key, value := range hashmap {
+        heap = append(heap, [2]int{key, value})
+        heapSize := len(heap)
+        swim(heap, heapSize - 1)
+        if heapSize > k {
+            heap[0] = heap[heapSize - 1]
+            heap = heap[0: heapSize - 1]
+            sink(heap, 0, len(heap))
         }
     }
-    values[start], values[index] = values[index], values[start]
-    if k <= index - start {
-        qsort(values, start, index - 1, ret, retIndex, k)
-    } else {
-        for i := start; i <= index; i++ {
-            ret[retIndex] = values[i][0]
-            retIndex++
-        }
-        if k > index - start + 1 {
-            qsort(values, index + 1, end, ret, retIndex, k - (index - start + 1))
-        }
+
+    for _, v := range heap {
+        ans = append(ans, v[0])
     }
+
+    return 
 }
 
 // @lc code=end

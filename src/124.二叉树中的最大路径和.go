@@ -5,6 +5,8 @@
  */
 package leetcode
 
+import "math"
+
 // @lc code=start
 /**
  * Definition for a binary tree node.
@@ -15,7 +17,7 @@ package leetcode
  * }
  */
 func maxPathSum(root *TreeNode) int {
-	ans := 0
+	ans := math.MinInt32
 
 	var inorder func(node *TreeNode) int
 	inorder = func(node *TreeNode) int {
