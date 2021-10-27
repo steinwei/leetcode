@@ -7,24 +7,23 @@ package leetcode
 
 // @lc code=start
 func leastInterval(tasks []byte, n int) int {
+	var (
+		n = len(tasks)
+		visited = make(map[byte]int)
+		ans = 0
+	)
 
-	n:= len(tasks)
-
-	hashmap := map[byte]int{}
-	kinds := 0
-	maxb := 0
-	
-
-	for i, v := range tasks {
-		if hashmap[v] == 0 {
-			kinds++
-		} else {
+	for _, v := range tasks {
+		if visited[byte(v)] == 0 {
 			
+		} else {
+			visited[byte(v)] = 1
 		}
-		hashmap[v] ++
+		visited[byte(v)] = 2
+		ans ++
 	}
 
-	return 0
+	return ans
 }
 
 // @lc code=end
