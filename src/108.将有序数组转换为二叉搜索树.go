@@ -15,7 +15,22 @@ package leetcode
  * }
  */
 func sortedArrayToBST(nums []int) *TreeNode {
+	var (
+		buildTree func(val int)
+		root *TreeNode
+	)
 
+	buildTree = func(val int) {
+		
+
+		a := &TreeNode{
+			Val: val,
+			Left: nil,
+			Right: nil,
+		}
+	}
+
+	return root
 }
 // @lc code=end
 
