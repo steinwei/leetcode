@@ -10,10 +10,6 @@ package leetcode
 func search(nums []int, target int) int {
 	n:=len(nums)
 
-	if n == 0 {
-		return -1
-	}
-
 	if n == 1 {
 		if nums[0] == target {
 			return 0
