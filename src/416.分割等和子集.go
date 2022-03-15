@@ -7,37 +7,32 @@ package leetcode
 
 // @lc code=start
 func canPartition(nums []int) bool {
-	// n := len(nums)
-	s:= 0
+	var (
+		sum ,avg = 0,0
+	)
 
-	// get sum
 	for _, v := range nums {
-		s+=v
+		sum+=v
 	}
 
-	// base
-	if s&1 == 1 {
+	if sum & 0x01 == 1 {
 		return false
 	}
+	avg = sum >> 1
 
-	// 平分
-	v := s>>1
-
-	dp := make([]bool, v + 1)
+	dp:= make([]bool, avg+1)
 	dp[0] = true
-
-	// 从set取值
-	for _, x := range nums {
-	for node := v; node - x> 0; node-- {
-			newNode := node
-			oldNode := node - x
+	for _, v := range nums {
+		for i := avg; i - v >= 0; i-- {
+			newNode := i
+			oldNode := i - v
 			if dp[oldNode] {
-				dp[newNode] =  true
+				dp[newNode] = true
 			}
 		}
 	}
 
-	return dp[v]
+	return dp[avg]
 }
 
 // @lc code=end
