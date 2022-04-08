@@ -8,38 +8,50 @@ package leetcode
 // @lc code=start
 func isScramble(s1 string, s2 string) bool {
 	var (
-		s1len = len(s1)
-		s2len = len(s2)
-		dp = make([][][]bool, s1len+1)
+		n = len(s1)
+		f = make([][][]int, 31)
+		dp func(l1,r1,l2,r2 int) int
 	)
 
-	if s1len != s2len {
-		return false
-	}
-
 	// initial
-	for i := 0; i < s1len; i++ {
-		dp[i] = make([][]bool, s1len+1)
-		for j := 0; j < s1len; j++ {
-			dp[i][j] = make([]bool, s1len+1)
-			dp[i][j][1] = s1[i] == s2[j]
-		}
-	}
-
-	// 
-	for len := 2; len <= s1len; len++ {
-		for i := 0; i+len <= s1len; i++ {
-			for j := 0; j+len <= s1len; j++ {
-				for leftLen := 1; leftLen < len && !dp[i][j][len]; leftLen++ {
-					c1 := dp[i][j][leftLen] && dp[i+leftLen][j+leftLen][len-leftLen]
-					c2 := dp[i][j+len-leftLen][leftLen] && dp[i+leftLen][j][len-leftLen]
-					dp[i][j][len] = c1 || c2
-				}
+	for i := range f {
+		f[i] = make([][]int, 31)
+		for j := range f[i] {
+			f[i][j] = make([]int, 31)
+			for k := range f[i][j] {
+				f[i][j][k] = -1
 			}
 		}
 	}
 
-	return dp[0][0][s1len]
+	dp = func(l1, r1, l2, r2 int) int {
+		if f[l1][r1][l2] != -1 {
+			return f[l1][r1][l2]
+		}
+
+		if l1 == r1 {
+			if s1[l1-1] == s2[l2-1] {
+				f[l1][r1][l2] = 1
+			} else {
+				f[l1][r1][l2] =  0
+			}
+			return f[l1][r1][l2]
+		}
+
+		f[l1][r1][l2] = 0
+		for i := l1; i < r1; i++ {
+			if dp(l1, i, l2, i-l1+l2) == 1 && dp(i+1, r1, i-l1+l2+1, r2) == 1{
+				f[l1][r1][l2] = 1
+			}
+			if dp(l1, i, r1-i+l2, r2) == 1 && dp(i+1, r1, l2, r1-i-1+l2) == 1 {
+				f[l1][r1][l2] = 1
+			}
+		}
+
+		return f[l1][r1][l2]
+	}
+
+	return dp(1, n, 1, n) == 1
 }
 // @lc code=end
 
