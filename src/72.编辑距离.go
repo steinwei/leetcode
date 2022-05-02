@@ -5,45 +5,49 @@
  */
 package leetcode
 
+import "math"
+
 // @lc code=start
 func minDistance(word1 string, word2 string) int {
-	n1, n2 := len(word1), len(word2)
+	var (
+		n, m = len(word1), len(word2)
+		f = make([][]int, n+1)
+		min func(x,y int) int
+	)
 
-	dp := make([][]int, n1+1)
-	for i := range dp {
-		dp[i] = make([]int, n2+1)
-	}
-	for i := 0; i <= n1; i++ {
-		dp[i][0] = i
-	}
-	for i := 0; i <= n2; i++ {
-		dp[0][i] = i
-	}
-
-	var Min func(arg ...int) int
-	Min = func(arg ...int) int {
-		min := arg[0]
-		for _, val := range arg {
-			if val < min {
-				min = val
-			}
+	min = func(x, y int) int {
+		if x < y {
+			return x
 		}
-		return min
+		return y
 	}
-	for i := 1; i <= n1; i++ {
-		for j := 1; j <= n2; j++ {
-			if word1[i-1] == word2[j-1] {
-				dp[i][j] = dp[i-1][j-1]
-			} else {
-				dp[i][j] = Min(
-					dp[i-1][j-1]+1,
-					dp[i-1][j]+1,
-					dp[i][j-1]+1)
-			}
+
+	for i := range f {
+		f[i] = make([]int, m+1)
+		for j := range f[i] {
+			f[i][j] = math.MaxInt64
 		}
 	}
 
-	return dp[n1][n2]
+	f[0][0] = 0
+	for i := 0; i <= n; i++ {
+		for j := 0; j <= m; j++ {
+			if j < m {
+				f[i][j+1] = min(f[i][j+1], f[i][j]+1)
+			}
+			if i < n {
+				f[i+1][j] = min(f[i+1][j], f[i][j]+1)
+			}
+			if (i < n && j < m) && word1[i] == word2[j] {
+				f[i+1][j+1] = min(f[i+1][j+1], f[i][j])
+			}
+			if i<n&&j<m{
+				f[i+1][j+1] = min(f[i+1][j+1], f[i][j]+1)
+			}
+		}
+	}
+
+	return f[n][m]
 }
 
 // @lc code=end
